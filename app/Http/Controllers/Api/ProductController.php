@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Validator;
 class ProductController extends BaseController
 {
     /**
@@ -17,6 +18,7 @@ class ProductController extends BaseController
     {
         //
         $products=Product::all();
+        
         //   **********    1st way to show json Data ********
 
         // return $this->sendResponse($products->toArray(),'products Retrieved');
@@ -46,6 +48,21 @@ class ProductController extends BaseController
     public function store(Request $request)
     {
         //
+
+         $validator=Validator::make($request->all(),[
+             'name'          =>'required',
+             'description'   =>'required'
+
+         ]);
+
+         if($validator->fails()){
+
+            return $this->sendError('Validation Error',$validator->errors());
+         }
+
+         $product=Product::create($request->all());
+         return $this->sendResponse(new ProductResource($product),'Product Created successfully');
+
     }
 
     /**
