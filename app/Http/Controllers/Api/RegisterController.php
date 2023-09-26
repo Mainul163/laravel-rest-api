@@ -85,4 +85,13 @@ class RegisterController extends BaseController
 
       }
 
+
+
+      public function logout(){
+
+         auth()->user()->tokens()->delete();
+         return $this->sendResponse([],'User Logged Out');
+
+      }
+
 }

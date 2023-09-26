@@ -125,8 +125,12 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
+
     {
         //
+
+        $product->delete();
+        return $this->sendResponse(new ProductResource($product),'Product deleted');
     }
 }
