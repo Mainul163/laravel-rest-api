@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
-
-class ProductController extends Controller
+use App\Models\Product;
+class ProductController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +16,15 @@ class ProductController extends Controller
     public function index()
     {
         //
+        $products=Product::all();
+        //   **********    1st way to show json Data ********
+
+        // return $this->sendResponse($products->toArray(),'products Retrieved');
+
+
+          //   **********    2nd way to show json Data ********
+
+        return $this->sendResponse(ProductResource::collection( $products),'products Retrieved');
     }
 
     /**
